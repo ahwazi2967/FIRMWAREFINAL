@@ -6,11 +6,11 @@ extern TIM_HandleTypeDef htim3;
 /* Urutan isian: timer, channel, rad_a, us_a, rad_b, us_b,
                  rad_min, rad_max, home_rad, max_speed_rad_s        */
 static const ServoConfig s_cfg[NUM_JOINTS] = {
-    /* BASE */ { &htim2, TIM_CHANNEL_1, 0.0f, 1500.0f, 0.7854f, 2000.0f, -0.5f, 0.5f, 0.0f, 1.0f },
-    /* ARM1 */ { &htim2, TIM_CHANNEL_2, 0.0f, 1500.0f, 0.7854f, 2000.0f, -0.5f, 0.5f, 0.0f, 1.0f },
-    /* ARM2 */ { &htim2, TIM_CHANNEL_3, 0.0f, 1500.0f, 0.7854f, 2000.0f, -0.5f, 0.5f, 0.0f, 1.0f },
-    /* ARM3 */ { &htim2, TIM_CHANNEL_4, 0.0f, 1500.0f, 0.7854f, 2000.0f, -0.5f, 0.5f, 0.0f, 1.0f },
-    /* GRIP */ { &htim3, TIM_CHANNEL_1, 0.0f, 1500.0f, 0.7854f, 2000.0f, 0.0f, 1.0f, 0.0f, 1.0f }
+    /* BASE */ { &htim2, TIM_CHANNEL_1, 0.0f, 1500.0f, 0.7854f, 2000.0f, -1.523f, 1.523f, 0.0f, 1.0f },
+    /* ARM1 */ { &htim2, TIM_CHANNEL_2, 0.0f, 1500.0f, 0.7854f, 2000.0f, -1.523f, 1.523f, 0.0f, 1.0f },
+    /* ARM2 */ { &htim2, TIM_CHANNEL_3, 0.0f, 1500.0f, 0.7854f, 2000.0f, -1.319f, 1.523f, 0.0f, 1.0f },
+    /* ARM3 */ { &htim2, TIM_CHANNEL_4, 0.0f, 1500.0f, 0.7854f, 2000.0f, -1.523f, 1.523f, 0.0f, 1.0f },
+    /* GRIP */ { &htim3, TIM_CHANNEL_1, 0.0f, 1500.0f, 0.7854f, 2000.0f, 0.0f, 1.052f, 0.0f, 1.0f }
 };
 
 static ServoState s_state[NUM_JOINTS];
@@ -97,6 +97,7 @@ uint16_t servo_get_last_us(JointId joint)
 {
     return s_state[joint].last_us;
 }
+#endif                                        /* <-- letakkan DI SINI */
 
 uint8_t servo_set_target(JointId joint, float rad, uint16_t duration_ms)
 {
@@ -136,7 +137,8 @@ void servo_update(uint32_t now_ms)
         float step = s->target_rad - s->current_rad;      /* tanpa durasi: langsung ke target */
 
         if (s->duration_ms > 0U) {
-            uint32_t elapsed = now_ms - s->start_ms;
+        	int32_t  dt      = (int32_t)(now_ms - s->start_ms);
+        	uint32_t elapsed = (dt > 0) ? (uint32_t)dt : 0U;
             if (elapsed < s->duration_ms) {
                 float frac   = (float)elapsed / (float)s->duration_ms;
                 float wanted = s->start_rad +
@@ -190,4 +192,3 @@ uint8_t servo_any_moving(void)
     }
     return 0U;
 }
-#endif

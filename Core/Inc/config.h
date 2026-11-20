@@ -34,7 +34,7 @@
 #define FW_VERSION_MINOR        1U
 #define PROTOCOL_VERSION        1U
 
-#define SERVO_DEBUG             1U
+#define SERVO_DEBUG             0U
 #define DEBUG_STEP_MAX_US		150U
 #define SERVO_ARRIVE_EPS_RAD 0.0005f
 
