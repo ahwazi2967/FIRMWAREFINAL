@@ -19,7 +19,7 @@ float servo_clamp_rad(JointId joint, float rad, uint8_t *was_clamped)
     const ServoConfig *c = &s_cfg[joint];
     *was_clamped = 0U;
 
-    if (rad != rad) {                          /* NaN: pakai nilai sekarang */
+    if (rad != rad) {                      
         *was_clamped = 1U;
         return s_state[joint].current_rad;
     }
@@ -52,7 +52,6 @@ void servo_write_us(JointId joint, uint16_t us)
 
 void servo_init(void)
 {
-    /* 1) Isi keadaan dan tulis pulsa home SEBELUM PWM dinyalakan */
     for (uint8_t j = 0; j < NUM_JOINTS; j++) {
         float home = s_cfg[j].home_rad;
         s_state[j].current_rad = home;
@@ -63,7 +62,6 @@ void servo_init(void)
         s_state[j].moving      = 0U;
         servo_write_us((JointId)j, servo_rad_to_us((JointId)j, home));
     }
-    /* 2) Baru nyalakan PWM */
     for (uint8_t j = 0; j < NUM_JOINTS; j++) {
         HAL_TIM_PWM_Start(s_cfg[j].htim, s_cfg[j].channel);
     }
@@ -96,7 +94,7 @@ uint16_t servo_get_last_us(JointId joint)
 {
     return s_state[joint].last_us;
 }
-#endif                                        /* <-- letakkan DI SINI */
+#endif
 
 uint8_t servo_set_target(JointId joint, float rad, uint16_t duration_ms)
 {
