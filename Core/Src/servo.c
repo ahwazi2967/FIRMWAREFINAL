@@ -3,7 +3,7 @@
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
 
-/* Urutan isian: timer, channel, rad_a, us_a, rad_b, us_b,
+/* timer, channel, rad_a, us_a, rad_b, us_b,
                  rad_min, rad_max, home_rad, max_speed_rad_s        */
 static const ServoConfig s_cfg[NUM_JOINTS] = {
     /* BASE */ { &htim2, TIM_CHANNEL_1, 0.0f, 1500.0f, 0.7854f, 2000.0f, -1.523f, 1.523f, 0.0f, 1.0f },
