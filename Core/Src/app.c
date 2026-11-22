@@ -1,7 +1,6 @@
 #include "app.h"
 #include "uart_comm.h"
 #include "servo.h"
-#include "ultrasonic.h"
 #include "protocol.h"
 
 Diag     g_diag;
@@ -23,16 +22,16 @@ static uint8_t task_due(uint32_t *last_ms, uint32_t period_ms, uint32_t now)
 static void failsafe_task(uint32_t now)
 {
     if (g_app.failsafe) {
-        return;                                    /* sudah aktif */
+        return;                                   
     }
     if (g_app.flags & FLAG_BOOT_FRESH) {
-        return;                                    /* belum pernah ada perintah */
+        return;                                    
     }
     if ((uint32_t)(now - g_app.last_valid_frame_ms) >= CMD_TIMEOUT_MS) {
         g_app.failsafe = 1U;
         g_app.flags   |= FLAG_FAILSAFE;
         g_diag.failsafe_events++;
-        servo_stop();                              /* PWM tetap jalan */
+        servo_stop();                              
     }
 }
 
@@ -58,8 +57,7 @@ static void heartbeat_task(uint32_t now)
 void app_init(void)
 {
     uart_comm_init();
-    servo_init();                 /* tulis pulsa home SEBELUM PWM menyala */
-    ultrasonic_init();
+    servo_init();             
     protocol_init();
 
     g_app.stream_period_ms = TELEMETRY_DEFAULT_MS;
@@ -70,7 +68,6 @@ void app_loop(void)
     uint32_t now = HAL_GetTick();
 
     protocol_poll(now);
-    ultrasonic_task(now);
 
     if (task_due(&t_servo_ms, SERVO_UPDATE_MS, now)) {
         servo_update(now);
