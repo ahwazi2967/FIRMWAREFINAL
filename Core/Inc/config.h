@@ -21,11 +21,6 @@
 #define CMD_TIMEOUT_MS          500U
 #define HEARTBEAT_MS        	500U
 
-#define ULTRA_PERIOD_MS         60U
-#define ULTRA_TIMEOUT_MS        40U
-#define ULTRA_MIN_MM            20U
-#define ULTRA_MAX_MM            4000U
-#define MEDIAN_WINDOW           5U
 #define DIST_INVALID            0xFFFFU
 
 #define TELEMETRY_DEFAULT_MS    50U
