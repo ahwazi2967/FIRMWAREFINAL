@@ -78,6 +78,6 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
     if (huart->Instance == USART1) {
         tx_ring.tail = (uint16_t)((tx_ring.tail + tx_chunk_len) % tx_ring.size);
         tx_busy = 0U;
-        uart_tx_kick();                       // masih ada data? kirim potongan berikutnya
+        uart_tx_kick();                      
     }
 }
