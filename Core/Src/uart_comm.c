@@ -63,7 +63,7 @@ static void uart_tx_kick(void) {
 }
 
 uint8_t uart_send(const uint8_t *data, uint16_t len) {
-    if (ring_free(&tx_ring) < len) {          // tidak muat: buang SELURUH frame
+    if (ring_free(&tx_ring) < len) {         
         g_diag.tx_drops++;
         return 0U;
     }
