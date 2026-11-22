@@ -35,13 +35,13 @@ uint16_t servo_rad_to_us(JointId joint, float rad)
     float us;
 
     if (span == 0.0f) {
-        us = c->us_a;                          /* cegah pembagian nol */
+        us = c->us_a;                      
     } else {
         us = c->us_a + (rad - c->rad_a) * (c->us_b - c->us_a) / span;
     }
     if (us < (float)US_ABS_MIN) us = (float)US_ABS_MIN;
     if (us > (float)US_ABS_MAX) us = (float)US_ABS_MAX;
-    return (uint16_t)(us + 0.5f);              /* dibulatkan */
+    return (uint16_t)(us + 0.5f);             
 }
 
 void servo_write_us(JointId joint, uint16_t us)
@@ -74,7 +74,7 @@ static uint8_t set_target_at(JointId joint, float rad,
     float target = servo_clamp_rad(joint, rad, &clamped);
     ServoState *s = &s_state[joint];
 
-    s->start_rad   = s->current_rad;      /* gerak mulai dari posisi sekarang */
+    s->start_rad   = s->current_rad;     
     s->target_rad  = target;
     s->start_ms    = now;
     s->duration_ms = duration_ms;
@@ -131,7 +131,7 @@ void servo_update(uint32_t now_ms)
 
         float max_step = s_cfg[j].max_speed_rad_s *
                          ((float)SERVO_UPDATE_MS / 1000.0f);
-        float step = s->target_rad - s->current_rad;      /* tanpa durasi: langsung ke target */
+        float step = s->target_rad - s->current_rad;  
 
         if (s->duration_ms > 0U) {
         	int32_t  dt      = (int32_t)(now_ms - s->start_ms);
@@ -144,7 +144,7 @@ void servo_update(uint32_t now_ms)
             }
         }
 
-        if (step >  max_step) step =  max_step;           /* pembatas kecepatan */
+        if (step >  max_step) step =  max_step;          
         if (step < -max_step) step = -max_step;
 
         s->current_rad += step;
@@ -176,7 +176,7 @@ void servo_get_all_current_mrad(int16_t out[NUM_JOINTS])
 {
     for (uint8_t j = 0; j < NUM_JOINTS; j++) {
         float m = s_state[j].current_rad * 1000.0f;
-        out[j] = (int16_t)(m >= 0.0f ? m + 0.5f : m - 0.5f);   /* dibulatkan */
+        out[j] = (int16_t)(m >= 0.0f ? m + 0.5f : m - 0.5f); 
     }
 }
 
