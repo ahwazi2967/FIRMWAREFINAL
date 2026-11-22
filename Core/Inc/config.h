@@ -75,11 +75,6 @@ typedef enum {
     PS_WAIT_CRC
 } ParserState;
 
-typedef enum {
-    ULTRA_IDLE,
-    ULTRA_WAITING
-} UltraState;
-
 #define FLAG_FAILSAFE        (1U << 0)
 #define FLAG_MOVING          (1U << 1)
 #define FLAG_CLAMPED_LAST    (1U << 2)
