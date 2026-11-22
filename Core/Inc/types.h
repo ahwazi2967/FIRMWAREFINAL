@@ -47,19 +47,6 @@ typedef struct {
 } Ring;
 
 typedef struct {
-    volatile uint16_t echo_us;
-    volatile uint8_t echo_ready;
-    UltraState state;
-    uint32_t last_trigger_ms;
-    uint16_t history[MEDIAN_WINDOW];
-    uint8_t hist_count;
-    uint8_t hist_idx;
-    uint16_t dist_mm;
-    uint16_t timeouts;
-    uint8_t invalid_run;
-} Ultra;
-
-typedef struct {
     uint16_t rx_bytes;
     uint16_t frames_ok;
     uint16_t err_crc;
