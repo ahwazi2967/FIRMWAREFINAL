@@ -1,7 +1,6 @@
 #include "protocol.h"
 #include "uart_comm.h"
 #include "servo.h"
-#include "ultrasonic.h"
 #include "app.h"
 #include <stddef.h>
 
@@ -48,8 +47,8 @@ uint8_t parser_feed(Parser *p, uint8_t byte, uint32_t now_ms)
         if (byte == FRAME_H2) {
             p->state = PS_WAIT_LEN;
         } else if (byte != FRAME_H1) {
-            p->state = PS_WAIT_H1;       /* bukan header: ulang dari awal */
-        }                                /* byte 0xAA lagi: tetap anggap H1 */
+            p->state = PS_WAIT_H1;     
+        }                            
         break;
 
     case PS_WAIT_LEN:
